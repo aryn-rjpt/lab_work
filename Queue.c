@@ -16,7 +16,7 @@ int isFull(struct queue *q)
 
 int isEmpty(struct queue *q)
 {
-    return q->front == q->rear -1;
+    return q->front == -1;
 }
 
 int enqueue(struct queue *q, int n){
@@ -24,31 +24,47 @@ int enqueue(struct queue *q, int n){
         printf("Queue is full\n");
         return -1;
     }
+    if (q->front == -1)
+        q->front = 0;
+
     q->arr[q->rear++] = n;
+    return 0;
 }
 
-int deque(struct queue *q){
-    if (isEmpty(q)){
+int deque(struct queue *q)
+{
+    if (isEmpty(q))
+    {
         printf("Queue is empty\n");
         return -1;
     }
-    return q->arr[++q->front];
+    int value = q->arr[q->front++];
+    if (q->front == q->rear){
+        q->front = q->rear = -1;
+    }
+    return value;
 }
 
-void printQueue(struct queue *q){
-    if (isEmpty(q)){
+void printQueue(struct queue *q)
+{
+    if (isEmpty(q))
+    {
         printf("Queue is empty\n");
     }
-    else{
-        for (int i=q->front+1; i<q->rear; i++){
+    else
+    {
+        for (int i = q->front + 1; i < q->rear; i++)
+        {
             printf("%d ", q->arr[i]);
         }
         printf("\n");
     }
 }
 
-int peek(struct queue *q){
-    if (isEmpty(q)){
+int peek(struct queue *q)
+{
+    if (isEmpty(q))
+    {
         printf("Queue is empty\n");
         return -1;
     }
